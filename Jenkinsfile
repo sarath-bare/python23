@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     stages {
@@ -10,28 +9,45 @@ pipeline {
             }
         }
 
+        stage('Create Virtual Environment') {
+            steps {
+                sh '''
+                    python3 -m venv venv
+                '''
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh '''
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest'
+                sh '''
+                    . venv/bin/activate
+                    pytest -v
+                '''
             }
         }
-
     }
 
     post {
         success {
-            echo 'Pipeline Successful'
+            echo 'Pipeline Succeeded'
         }
 
         failure {
             echo 'Pipeline Failed'
         }
-    }
 
+        always {
+            echo 'Pipeline Finished'
+        }
+    }
 }
