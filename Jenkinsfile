@@ -35,6 +35,7 @@ pipeline {
                 '''
             }
         }
+
         stage('Build') {
             steps {
                 sh '''
@@ -45,20 +46,18 @@ pipeline {
         }
     }
 
-   post {
-            
-                always {
-                    archiveArtifacts artifacts: 'build/*', fingerprint: true
-                    echo 'Pipeline Finished'
-                }
-            
-                success {
-                    echo 'Pipeline Succeeded'
-                }
-            
-                failure {
-                    echo 'Pipeline Failed'
-                }
-           
+    post {
+        always {
+            archiveArtifacts artifacts: 'build/*', fingerprint: true
+            echo 'Pipeline Finished'
+        }
+
+        success {
+            echo 'Pipeline Succeeded'
+        }
+
+        failure {
+            echo 'Pipeline Failed'
+        }
     }
 }
