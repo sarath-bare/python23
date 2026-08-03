@@ -45,21 +45,21 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            echo 'Pipeline Succeeded'
-        }
-
-        failure {
-            echo 'Pipeline Failed'
-        }
-
-        always {
-            echo 'Pipeline Finished'
-        }
-        always {
-            archiveArtifacts artifacts: 'build/*', fingerprint: true
-            echo 'Pipeline Finished'
+   post {
+            
+                always {
+                    archiveArtifacts artifacts: 'build/*', fingerprint: true
+                    echo 'Pipeline Finished'
+                }
+            
+                success {
+                    echo 'Pipeline Succeeded'
+                }
+            
+                failure {
+                    echo 'Pipeline Failed'
+                }
+            }
         }
     }
 }
