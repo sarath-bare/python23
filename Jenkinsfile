@@ -35,6 +35,14 @@ pipeline {
                 '''
             }
         }
+        stage('Build') {
+            steps {
+                sh '''
+                    mkdir -p build
+                    echo "Build completed successfully" > build/build.txt
+                '''
+            }
+        }
     }
 
     post {
@@ -47,6 +55,10 @@ pipeline {
         }
 
         always {
+            echo 'Pipeline Finished'
+        }
+        always {
+            archiveArtifacts artifacts: 'build/*', fingerprint: true
             echo 'Pipeline Finished'
         }
     }
